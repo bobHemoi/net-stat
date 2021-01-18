@@ -10,6 +10,9 @@ class PacketStat {
     public:
         void updateTxPacketStat(int);
         void updateRxPacketStat(int);
+        void updateSMACPacketStat(int);
+        void updateDMACPacketStat(int);
+
         void printPacketStat();
 
 
