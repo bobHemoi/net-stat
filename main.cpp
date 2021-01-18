@@ -22,19 +22,19 @@ void usage() {
 class KeyIP {
     
     private:
-        struct in_addr addr;
+        uint32_t addr;
     
     public:
         bool operator<(const KeyIP &compAddr) const{
-            return addr.s_addr < compAddr.addr.s_addr; 
+            return addr < compAddr.addr; 
         }
 
         char* ntoaIP(){
-            return inet_ntoa(addr);
+            return inet_ntoa(*(struct in_addr *)&addr);
         }
 
         KeyIP(uint32_t IPaddr){
-            addr.s_addr = IPaddr;
+            addr = IPaddr;
         }
 };
 
@@ -43,11 +43,11 @@ void updatePacketStat(map<KeyIP, PacketStat*> &IP2Packet,
     const ipv4_hdr*     ip;
     ip = (ipv4_hdr *)(packet + ETHERNET_LENGTH);
     
-    KeyIP sIPAddr = KeyIP(htonl(ip->ip_src));
+    KeyIP sIPAddr = KeyIP(ip->ip_src);
     //cout << htonl(ip->ip_src) <<endl;
     //cout << ntohl(ip->ip_src) <<endl;
     
-    KeyIP dIPAddr = KeyIP(htonl(ip->ip_dst));
+    KeyIP dIPAddr = KeyIP(ip->ip_dst);
     //cout << htonl(ip->ip_dst) <<endl;
     //cout << ntohl(ip->ip_dst) <<endl;
     
